@@ -16,78 +16,18 @@
 package com.example.wordsapp
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.wordsapp.databinding.ActivityMainBinding
 
 /**
  * Main Activity and entry point for the app. Displays a RecyclerView of letters.
  */
 class MainActivity : AppCompatActivity() {
-    private lateinit var recyclerView: RecyclerView
-    private var isLinearLayoutManager = true //keep the track of which layout is in use
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) { //just like onCreate() in the fragment
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding =
+            ActivityMainBinding.inflate(layoutInflater) //just like onCreateView() in the fragment
         setContentView(binding.root)
-
-        recyclerView = binding.recyclerView
-        chooseLayout()
     }
-
-    // Create a Layout changer function of the recyclerview
-    private fun chooseLayout() {
-        if (isLinearLayoutManager) {
-            recyclerView.layoutManager = LinearLayoutManager(this)
-        } else {
-            recyclerView.layoutManager = GridLayoutManager(this, 4)
-        }
-        recyclerView.adapter = LetterAdapter()
-    }
-
-    //lets create a function that switches the layout icon on and off
-    private fun setIcon(menuItem: MenuItem?) {
-        if (menuItem == null)
-            return //nothing
-        menuItem.icon =
-            if (isLinearLayoutManager) ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
-            else ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
-    }
-
-    //this method is interconnected with setIcon() function
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.layout_menu, menu)
-
-        val layoutButton =
-            menu?.findItem(R.id.action_switch_layout)  ///this is the item inside our menu file
-        // Calls code to set the icon based on the LinearLayoutManager of the RecyclerView
-        setIcon(layoutButton)
-        return true
-    }
-
-    //override the method onOptionsItemSelected()
-    //to change the layout manager(chooseLayout()) and layout icon(setIcon())
-    // when the Item is selected (tapped)
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_switch_layout -> {
-                //negate the LinearLayoutManager
-                isLinearLayoutManager = !isLinearLayoutManager
-                // call the layout changer functions
-                chooseLayout()
-                setIcon(item)
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
 }
