@@ -25,7 +25,7 @@ class LetterListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentLetterListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,7 +37,7 @@ class LetterListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null    //Just before destroying _binding = null and no property works
+        _binding = null    //Just before destroying, _binding = null and no property works
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

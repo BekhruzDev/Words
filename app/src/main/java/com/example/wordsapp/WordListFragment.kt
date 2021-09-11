@@ -17,20 +17,28 @@ class WordListFragment : Fragment() {
         const val SEARCH_PREFIX = "https://dictionary.cambridge.org/dictionary/english/"
     }
     private var _binding: FragmentWordListBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
+    private lateinit var letterId:String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let { //this is just like putExtra of the explicit intent
+            letterId = it.getString(LETTER).toString()
+        }
+    }
 
     override fun onCreateView(   //layout inflation of fragment_word_list.xml
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentWordListBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) { //binding access to views
-        val letterId = activity?.intent?.extras?.getString(WordListFragment.LETTER).toString()
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = WordAdapter(letterId, this.requireContext())
